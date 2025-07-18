@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="ScamShield - Professional scam and phishing detection tool. Analyze suspicious messages and links to stay safe online." />
+  <meta name="keywords" content="scam detection, phishing protection, message analysis, cybersecurity, fraud prevention" />
+  <meta name="author" content="ScamShield" />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="ScamShield - Professional Scam Detection" />
+  <meta property="og:description" content="Analyze suspicious messages and links with AI-powered detection algorithms. Stay protected from scams and phishing attempts." />
+  <meta property="og:type" content="website" />
+  
+  <title>ScamShield - Professional Scam & Phishing Detection</title>
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00b0ff;
+      --bg: #0a0a0a;
+      --fg: #f5f5f5;
+      --muted: #888888;
+      --terminal: #121212;
+      --success: #a2ffd8;
+      --fill: #00b0ff;
+      --bar-bg: #1a1a1a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'JetBrains Mono', monospace;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .loading-container {
+      background-color: #0d0d0d;
+      border: 1px solid #1a1a1a;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 0 30px rgba(0, 176, 255, 0.08);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 1.2s ease-out forwards;
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .loading-container.hidden {
+      opacity: 0;
+      transform: translateY(-20px);
+      pointer-events: none;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .subheader {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .terminal {
+      background-color: var(--terminal);
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 0.85rem;
+      color: var(--success);
+      height: 150px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
+    .log-line {
+      opacity: 0;
+      transform: translateX(-10px);
+      animation: logIn 0.4s ease forwards;
+    }
+
+    @keyframes logIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .progress-bar {
+      height: 4px;
+      background-color: var(--bar-bg);
+      margin-top: 1.5rem;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background-color: var(--fill);
+      transition: width 0.4s ease-in-out;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    .signature {
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
+
+    /* React App Styles */
+    #root {
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+      width: 100%;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    #root.loaded {
+      opacity: 1;
+    }
+
+    /* Override body styles when React app loads */
+    body.app-loaded {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #faf5ff 100%);
+      min-height: 100vh;
+      display: block;
+      padding: 0;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 500px) {
+      .loading-container {
+        padding: 2rem 1.25rem;
+        object-position: left;
+      }
+
+      .header {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+</html>
+
+<body>
+  <!-- Terminal Loading Screen -->
+  <div id="loading-screen" class="loading-container">
+    <div class="header">ScamShield</div>
+    <div class="subheader">Autonomous Threat Defense System</div>
+
+    <div class="terminal" id="terminal">
+      <div class="log-line" style="animation-delay: 0.1s">Boot sequence initiated...</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="footer">Build 2.3.1 | Internal Security Division</div>
+    <div class="signature">developed by <strong>black_lotus</strong></div>
+  </div>
+
+  <!-- React App Container -->
+  <div id="root"></div>
+
+  <!-- React App Module -->
+  <script type="module" src="/src/main.tsx"></script>
+
+  <!-- Loading Animation Script -->
+  <script>
+    const terminal = document.getElementById('terminal');
+    const progressFill = document.getElementById('progressFill');
+    const loadingScreen = document.getElementById('loading-screen');
+    const root = document.getElementById('root');
+
+    const bootLogs = [
+      "Loading core detection engine...",
+      "Initializing heuristics layer...",
+      "Synchronizing with threat intelligence...",
+      "Establishing encrypted channel...",
+      "Compiling threat signatures...",
+      "Activating AI analysis modules...",
+      "Integrity check passed.",
+      "All systems operational."
+    ];
+
+    let progress = 0;
+
+    async function animateLogs() {
+      for (let i = 0; i < bootLogs.length; i++) {
+        const log = document.createElement('div');
+        log.textContent = bootLogs[i];
+        log.classList.add('log-line');
+        log.style.animationDelay = `${0.2 * (i + 1)}s`;
+        terminal.appendChild(log);
+        terminal.scrollTop = terminal.scrollHeight;
+        progress += Math.floor(100 / bootLogs.length);
+        progressFill.style.width = progress + '%';
+        await new Promise(res => setTimeout(res, 600));
+      }
+
+      // Final activation message
+      setTimeout(() => {
+        const final = document.createElement('div');
+        final.textContent = "✅ ScamShield is now active.";
+        final.classList.add('log-line');
+        final.style.animationDelay = '0.2s';
+        final.style.color = '#00ff88';
+        final.style.fontWeight = 'bold';
+        terminal.appendChild(final);
+        progressFill.style.width = '100%';
+
+        // Transition to React app
+        setTimeout(() => {
+          const initializingLog = document.createElement('div');
+          initializingLog.textContent = "Initializing user interface...";
+          initializingLog.classList.add('log-line');
+          initializingLog.style.animationDelay = '0.1s';
+          initializingLog.style.color = '#00b0ff';
+          terminal.appendChild(initializingLog);
+          terminal.scrollTop = terminal.scrollHeight;
+
+          // Hide loading screen and show React app
+          setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            root.classList.add('loaded');
+            document.body.classList.add('app-loaded');
+            
+            // Remove loading screen from DOM after animation
+            setTimeout(() => {
+              if (loadingScreen.parentNode) {
+                loadingScreen.parentNode.removeChild(loadingScreen);
+              }
+            }, 800);
+          }, 800);
+        }, 1000);
+      }, 800);
+    }
+
+    // Start the loading animation
+    animateLogs();
+
+    // Fallback: If React app fails to load, show error after 10 seconds
+    setTimeout(() => {
+      if (!root.classList.contains('loaded')) {
+        const errorLog = document.createElement('div');
+        errorLog.textContent = "❌ Failed to initialize interface. Please refresh.";
+        errorLog.classList.add('log-line');
+        errorLog.style.color = '#ff4444';
+        errorLog.style.fontWeight = 'bold';
+        terminal.appendChild(errorLog);
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+    }, 10000);
+  </script>
+</body>
+</html>
